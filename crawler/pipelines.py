@@ -59,6 +59,7 @@ class SupabasePipeline:
                 
                 # 4. Push doc_id to Celery indexer queue
                 celery_app.send_task("indexer.tasks.index_document", args=[doc_id])
+                spider.logger.info(f"Successfully saved and queued doc_id: {doc_id}")
                 
         except Exception as e:
             spider.logger.error(f"Error upserting to Supabase: {e}")

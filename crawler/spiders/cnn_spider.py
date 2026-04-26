@@ -8,16 +8,16 @@ class GeneralSpider(CrawlSpider):
     
     def __init__(self, *a, **kw):
         super(GeneralSpider, self).__init__(*a, **kw)
-        domain = os.getenv("TARGET_DOMAIN", "www.cnn.com")
+        domain = os.getenv("TARGET_DOMAIN", "en.wikipedia.org")
         if not domain.startswith('http'):
             self.allowed_domains = [domain]
-            self.start_urls = [f'https://{domain}']
+            self.start_urls = [f'https://{domain}/wiki/Main_Page']
         else:
             self.allowed_domains = [domain.split('//')[-1].split('/')[0]]
             self.start_urls = [domain]
 
     rules = (
-        Rule(LinkExtractor(allow=()), callback='parse_item', follow=True),
+        Rule(LinkExtractor(allow=r'/wiki/'), callback='parse_item', follow=True),
     )
 
     def parse_item(self, response):

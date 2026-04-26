@@ -16,22 +16,32 @@ def rank_search(query: str, k: int = 10):
     # For a project setting, fetching the terms and aggregating in Python is acceptable,
     # but a single SQL query is better.
     
-    # Let's try to fetch all matching rows and aggregate
+    # 1. Fetch inverted index entries and document info
+    # inverted_index has a FK to documents, so this join works
     response = supabase.table("inverted_index") \
-        .select("doc_id, tf, term_stats(idf), documents(url, title)") \
+        .select("term, doc_id, tf, documents(url, title)") \
         .in_("term", query_terms) \
         .execute()
     
     if not response.data:
         return []
 
+    # 2. Fetch IDF values from term_stats separately to avoid join errors
+    stats_response = supabase.table("term_stats") \
+        .select("term, idf") \
+        .in_("term", query_terms) \
+        .execute()
+    
+    term_to_idf = {row['term']: row['idf'] for row in stats_response.data}
+
     scores = {}
     doc_info = {}
     
     for row in response.data:
         doc_id = row['doc_id']
+        term = row['term']
         tf = row['tf']
-        idf = row['term_stats']['idf'] if row['term_stats'] else 0
+        idf = term_to_idf.get(term, 0)
         
         score = tf * idf
         scores[doc_id] = scores.get(doc_id, 0) + score
@@ -76,22 +86,31 @@ def wildcard_search(query: str, k: int = 10):
         return []
         
     # 2. Perform regular ranking with these matching terms
-    # We can reuse the logic from rank_search but with the explicit terms
+    # Fetch inverted index entries and document info
     response = supabase.table("inverted_index") \
-        .select("doc_id, tf, term_stats(idf), documents(url, title)") \
+        .select("term, doc_id, tf, documents(url, title)") \
         .in_("term", matching_terms) \
         .execute()
     
     if not response.data:
         return []
 
+    # 3. Fetch IDF values from term_stats separately
+    stats_response = supabase.table("term_stats") \
+        .select("term, idf") \
+        .in_("term", matching_terms) \
+        .execute()
+    
+    term_to_idf = {row['term']: row['idf'] for row in stats_response.data}
+
     scores = {}
     doc_info = {}
     
     for row in response.data:
         doc_id = row['doc_id']
+        term = row['term']
         tf = row['tf']
-        idf = row['term_stats']['idf'] if row['term_stats'] else 0
+        idf = term_to_idf.get(term, 0)
         
         score = tf * idf
         scores[doc_id] = scores.get(doc_id, 0) + score
