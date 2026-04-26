@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+      - redis
+    restart: always
+
+  worker:
+    build: .
+    command: celery -A indexer.tasks worker --loglevel=info
+    env_file: .env
+    depends_on:
+      - redis
+    restart: always
+
+  crawler:
+    build: .
+    command: scrapy runspider crawler/spiders/cnn_spider.py
+    env_file: .env
+    depends_on:
+      - redis
+    # The crawler will finish once it hits MAX_PAGES
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

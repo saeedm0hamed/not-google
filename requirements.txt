@@ -1,0 +1,14 @@
+scrapy
+beautifulsoup4
+lxml
+langdetect
+fastapi
+uvicorn
+supabase
+nltk
+PyStemmer
+celery[redis]
+python-dotenv
+httpx
+pydantic-settings
+pydantic
