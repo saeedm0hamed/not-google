@@ -103,7 +103,7 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
               <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
                 <path d='M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' />
               </svg>
-              <span>Not-Google_97 - [Results for: {query}]</span>
+              <span className='truncate max-w-[200px] sm:max-w-none'>Not-Google_97 - [Results for: {query}]</span>
             </div>
             <div className='flex gap-1'>
               <motion.button
@@ -132,6 +132,7 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
               className='h-8 cursor-pointer w-auto'
               height={32}
               onClick={() => router.push('/')}
+              priority
               src='/not-google.svg'
               unoptimized
               width={120}
@@ -265,8 +266,8 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
 
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <motion.div className='mt-12 flex justify-center' variants={fadeUp}>
-                      <table className='border-2 border-[#808080] text-sm'>
+                    <motion.div className='mt-12 flex justify-center w-full overflow-x-auto pb-2' variants={fadeUp}>
+                      <table className='border-2 border-[#808080] text-sm min-w-max'>
                         <tbody>
                           <tr className='bg-[#c0c0c0]'>
                             <td
@@ -310,7 +311,7 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
         </div>
 
         <motion.footer
-          className='w-full py-4 border-t border-[#808080] mt-auto bg-[#c0c0c0] text-[10px] text-center text-black'
+          className='w-full py-4 border-t border-[#808080] mt-auto bg-[#c0c0c0] text-[10px] text-center text-black px-4'
           variants={footerSlide}
         >
           <div className='flex flex-col gap-2 items-center'>
@@ -319,6 +320,17 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
               <div className='bg-black text-[#00FF00] font-pixel px-2 py-1 inset-bevel text-lg tracking-widest'>
                 {data?.total_results.toString().padStart(8, '0') || '00000000'}
               </div>
+            </div>
+            <div className='flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2'>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
+                About
+              </a>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
+                Privacy
+              </a>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
+                Terms
+              </a>
             </div>
             <p className='text-black'>Copyright (c) 1997 Not-Google Inc. All Rights Reserved.</p>
           </div>

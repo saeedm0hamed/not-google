@@ -120,7 +120,9 @@ function SearchResults() {
                   strokeWidth='2'
                 />
               </svg>
-              <span>Not-Google_97 - [Results for: {query || 'None'}]</span>
+              <span className='truncate max-w-[200px] sm:max-w-none'>
+                Not-Google_97 - [Results for: {query || 'None'}]
+              </span>
             </div>
             <div className='flex gap-1'>
               <motion.button
@@ -149,6 +151,7 @@ function SearchResults() {
               className='h-8 cursor-pointer drop-shadow-[1px_1px_0px_rgba(255,255,255,1)] w-auto'
               height={32}
               onClick={() => router.push('/')}
+              priority
               src='/not-google.svg'
               unoptimized
               width={120}
@@ -303,8 +306,8 @@ function SearchResults() {
 
                   {/* Pagination */}
                   {totalPages > 1 && (
-                    <motion.div className='mt-12 flex justify-center' variants={fadeUp}>
-                      <table className='border-2 border-[#808080] text-sm'>
+                    <motion.div className='mt-12 flex justify-center w-full overflow-x-auto pb-2' variants={fadeUp}>
+                      <table className='border-2 border-[#808080] text-sm min-w-max'>
                         <tbody>
                           <tr className='bg-[#c0c0c0]'>
                             <td
@@ -362,17 +365,17 @@ function SearchResults() {
                 {data?.total_results.toString().padStart(8, '0') || '00001997'}
               </div>
             </div>
-            <div className='flex justify-center gap-4 mb-2'>
-              <a className='text-blue-800 underline hover:text-red-600' href='#'>
+            <div className='flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2 px-4'>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
                 About
               </a>
-              <a className='text-blue-800 underline hover:text-red-600' href='#'>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
                 Privacy
               </a>
-              <a className='text-blue-800 underline hover:text-red-600' href='#'>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
                 Contact
               </a>
-              <a className='text-blue-800 underline hover:text-red-600' href='#'>
+              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
                 Terms
               </a>
             </div>

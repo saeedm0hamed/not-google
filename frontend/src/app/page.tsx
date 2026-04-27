@@ -81,44 +81,44 @@ export default function Home() {
 
         {/* Toolbar */}
         <motion.header
-          className='bg-zinc-300 border-b-2 border-zinc-600 shadow-[0_1px_0_0_#ffffff] px-4 py-2 flex items-center justify-between w-full mb-4'
+          className='bg-zinc-300 border-b-2 border-zinc-600 shadow-[0_1px_0_0_#ffffff] px-4 py-2 flex flex-col md:flex-row items-center justify-between w-full mb-4 gap-4'
           variants={toolbarSlide}
         >
-          <div className='flex items-center gap-4'>
-            <p className='font-pixel  tracking-widest '>NOT GOOGLE</p>
-            <nav className='flex gap-4'>
+          <div className='flex flex-col md:flex-row items-center gap-4 w-full md:w-auto'>
+            <p className='font-pixel tracking-widest whitespace-nowrap'>NOT GOOGLE</p>
+            <nav className='flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2'>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Images
               </a>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Maps
               </a>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Play
               </a>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 YouTube
               </a>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Gmail
               </a>
               <a
-                className='uppercase tracking-widest text-xs font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Drive
@@ -126,7 +126,7 @@ export default function Home() {
             </nav>
           </div>
           <motion.button
-            className='bg-background outset-bevel-button px-2 py-1 font-label-xs text-label-xs font-bold uppercase tracking-widest text-foreground hover:bg-zinc-200'
+            className='bg-background outset-bevel-button px-4 py-1 font-label-xs text-[10px] font-bold uppercase tracking-widest text-foreground hover:bg-zinc-200 whitespace-nowrap'
             whileTap={buttonTap}
             whileHover={buttonHover}
           >
@@ -142,6 +142,7 @@ export default function Home() {
               alt='Not-Google'
               className='w-full max-w-[400px] h-auto drop-shadow-[2px_2px_0px_rgba(0,0,0,1)]'
               height={100}
+              priority
               src='/not-google.svg'
               unoptimized
               width={400}
@@ -177,9 +178,9 @@ export default function Home() {
                 value={query}
               />
             </motion.div>
-            <motion.div className='flex gap-4' variants={fadeUp}>
+            <motion.div className='flex flex-col sm:flex-row gap-4 w-full sm:w-auto' variants={fadeUp}>
               <motion.button
-                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground'
+                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
                 type='submit'
                 whileTap={buttonTap}
                 whileHover={buttonHover}
@@ -187,7 +188,7 @@ export default function Home() {
                 Not-Google Search
               </motion.button>
               <motion.button
-                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground'
+                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
                 onClick={handleLucky}
                 type='button'
                 whileTap={buttonTap}
@@ -233,23 +234,41 @@ export default function Home() {
         className='mt-8 bg-zinc-300 border-t-2 border-zinc-600 shadow-[0_-1px_0_0_#ffffff] max-w-[1024px] mx-auto py-6 px-4 flex flex-col items-center gap-4 w-full'
         variants={footerSlide}
       >
-        <nav className='flex gap-4'>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+        <nav className='flex flex-wrap justify-center gap-x-4 gap-y-2'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             Advertising
           </a>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             Business
           </a>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             About
           </a>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             Privacy
           </a>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             Terms
           </a>
-          <a className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer' href='#'>
+          <a
+            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
+            href='#'
+          >
             Settings
           </a>
         </nav>

@@ -8,8 +8,20 @@ const pixelFont = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Google - 1997 Retro Style',
-  description: 'Google - 1997 Retro Style Search Engine',
+  title: 'Not Google - مش جوجل',
+  description: 'IR Practical Project Implementation 2026',
+  openGraph: {
+    title: 'Not Google - مش جوجل',
+    description: 'IR Practical Project Implementation 2026',
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Not Google - Retro Search',
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
