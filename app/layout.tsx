@@ -8,8 +8,12 @@ const pixelFont = localFont({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://sae8d-not-google.hf.space'),
   title: 'Not Google - مش جوجل',
   description: 'IR Practical Project Implementation 2026',
+  icons: {
+    icon: '/g.svg',
+  },
   openGraph: {
     title: 'Not Google - مش جوجل',
     description: 'IR Practical Project Implementation 2026',
