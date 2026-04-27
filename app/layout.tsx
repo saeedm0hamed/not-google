@@ -31,7 +31,14 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Not Google - مش جوجل',
     description: 'IR Practical Project Implementation 2026',
-    images: ['/og.jpg'],
+    images: [
+      {
+        url: '/og.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Not Google - مش جوجل',
+      },
+    ],
   },
   robots: {
     index: true,

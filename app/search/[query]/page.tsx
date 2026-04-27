@@ -23,6 +23,7 @@ interface SearchResult {
   doc_id: number;
   url: string;
   title: string;
+  image_url?: string;
   score: number;
 }
 
@@ -40,7 +41,8 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
   const [error, setError] = useState<string | null>(null);
   const [searchInput, setSearchInput] = useState(query);
   const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 5;
+  const [viewMode, setViewMode] = useState<'web' | 'images'>('web');
+  const resultsPerPage = viewMode === 'web' ? 5 : 12;
   const router = useRouter();
 
   // Helper to fix potential formatting issues in the example response text
@@ -82,9 +84,13 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
     }
   };
 
-  const totalResults = data?.results.length || 0;
+  const totalResults = (viewMode === 'web' ? data?.results : data?.results.filter((r) => r.image_url))?.length || 0;
   const totalPages = Math.ceil(totalResults / resultsPerPage);
-  const currentResults = data?.results.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage) || [];
+  const currentResults =
+    (viewMode === 'web' ? data?.results : data?.results.filter((r) => r.image_url))?.slice(
+      (currentPage - 1) * resultsPerPage,
+      currentPage * resultsPerPage,
+    ) || [];
 
   return (
     <motion.div
@@ -97,11 +103,25 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
         className='w-full max-w-[1024px] min-h-[90vh] flex flex-col bg-background outset-bevel shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
         variants={scaleFade}
       >
-        <motion.header className='w-full flex flex-col border-b-4 border-double border-[#808080]' variants={toolbarSlide}>
+        <motion.header
+          className='w-full flex flex-col border-b-4 border-double border-[#808080]'
+          variants={toolbarSlide}
+        >
           <div className='bg-gradient-to-r from-[#000080] to-[#1084d0] text-white px-2 py-1 text-sm font-bold flex items-center justify-between'>
             <div className='flex items-center gap-2'>
-              <svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' />
+              <svg
+                className='w-4 h-4'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                />
               </svg>
               <span className='truncate max-w-[200px] sm:max-w-none'>Not-Google_97 - [Results for: {query}]</span>
             </div>
@@ -164,11 +184,55 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
             variants={slideInLeft}
           >
             <div className='bg-[#808080] text-white px-2 py-1 font-bold mb-2 uppercase'>FILTER_RESULTS</div>
-            <div className='bg-[#000080] text-white font-bold px-2 py-1 flex items-center gap-2 cursor-pointer'>
-              <svg className='w-3 h-3' fill='none' stroke='currentColor' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'>
-                <path d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z' strokeLinecap='round' strokeLinejoin='round' strokeWidth='2' />
+            <div
+              className={`font-bold px-2 py-1 flex items-center gap-2 cursor-pointer ${
+                viewMode === 'web' ? 'bg-[#000080] text-white' : 'text-black hover:bg-[#d0d0d0]'
+              }`}
+              onClick={() => {
+                setViewMode('web');
+                setCurrentPage(1);
+              }}
+            >
+              <svg
+                className='w-3 h-3'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                />
               </svg>
               Web Results
+            </div>
+            <div
+              className={`font-bold px-2 py-1 flex items-center gap-2 cursor-pointer mt-1 ${
+                viewMode === 'images' ? 'bg-[#000080] text-white' : 'text-black hover:bg-[#d0d0d0]'
+              }`}
+              onClick={() => {
+                setViewMode('images');
+                setCurrentPage(1);
+              }}
+            >
+              <svg
+                className='w-3 h-3'
+                fill='none'
+                stroke='currentColor'
+                viewBox='0 0 24 24'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                  strokeWidth='2'
+                />
+              </svg>
+              Image Results
             </div>
             <motion.div className='mt-8 inset-bevel p-2 bg-[#FFFFCC]' variants={fadeUp}>
               <p className='font-bold text-red-600 mb-1 uppercase'>ADVERTISEMENT</p>
@@ -237,25 +301,75 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
                     </div>
                   </motion.div>
 
-                  {currentResults.map((result) => (
-                    <motion.div className='mb-8' key={result.rank} variants={resultItem}>
-                      <div className='mb-1'>
-                        <a
-                          className='text-xl font-bold text-[#0000FF] underline visited:text-[#800080] hover:text-[#FF0000]'
-                          href={result.url.replace(/`/g, '').trim()}
-                          rel='noopener noreferrer'
-                          target='_blank'
-                        >
-                          {result.title}
-                        </a>
-                      </div>
-                      <p className='text-[#00AA00] text-sm mb-1 truncate'>{result.url.replace(/`/g, '').trim()}</p>
-                      <p className='text-black text-sm max-w-2xl'>
-                        This page was ranked #{result.rank} for your query. It has a relevance score of{' '}
-                        {result.score.toFixed(4)}.
-                      </p>
-                    </motion.div>
-                  ))}
+                  {viewMode === 'web' ? (
+                    currentResults.map((result) => (
+                      <motion.div className='mb-8' key={result.rank} variants={resultItem}>
+                        <div className='flex gap-4'>
+                          {result.image_url && (
+                            <div className='flex-shrink-0 w-24 h-24 relative outset-bevel bg-[#c0c0c0] p-1'>
+                              <img
+                                alt={result.title}
+                                className='w-full h-full object-cover inset-bevel'
+                                src={result.image_url.replace(/`/g, '').trim()}
+                              />
+                            </div>
+                          )}
+                          <div className='flex-1'>
+                            <div className='mb-1'>
+                              <a
+                                className='text-xl font-bold text-[#0000FF] underline visited:text-[#800080] hover:text-[#FF0000]'
+                                href={result.url.replace(/`/g, '').trim()}
+                                rel='noopener noreferrer'
+                                target='_blank'
+                              >
+                                {result.title}
+                              </a>
+                            </div>
+                            <p className='text-sm text-[#008000] mb-1 truncate'>
+                              {result.url.replace(/`/g, '').trim()}
+                            </p>
+                            <p className='text-xs text-[#808080]'>
+                              Relevance Score: {result.score.toFixed(4)} | Doc ID: {result.doc_id}
+                            </p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  ) : (
+                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+                      {currentResults.map((result) => {
+                        const cleanImageUrl = result.image_url?.replace(/`/g, '').trim();
+                        return (
+                          <motion.div
+                            className='flex flex-col gap-2'
+                            key={`${result.rank}-${result.doc_id}`}
+                            variants={resultItem}
+                          >
+                            <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
+                              <a href={result.url.replace(/`/g, '').trim()} rel='noopener noreferrer' target='_blank'>
+                                <img
+                                  alt={result.title}
+                                  className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
+                                  src={cleanImageUrl}
+                                />
+                                <div className='absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors' />
+                              </a>
+                            </div>
+                            <div className='text-[10px] leading-tight truncate font-pixel'>
+                              <a
+                                className='text-[#0000FF] underline hover:text-[#FF0000]'
+                                href={result.url.replace(/`/g, '').trim()}
+                                rel='noopener noreferrer'
+                                target='_blank'
+                              >
+                                {result.title}
+                              </a>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </div>
+                  )}
 
                   {totalResults === 0 && (
                     <motion.div className='p-8 text-center outset-bevel bg-[#c0c0c0]' variants={fadeUp}>
@@ -272,7 +386,9 @@ export default function DynamicSearchPage({ params }: { params: Promise<{ query:
                           <tr className='bg-[#c0c0c0]'>
                             <td
                               className={`px-3 py-1 border border-[#808080] font-bold cursor-pointer hover:bg-[#d0d0d0] ${
-                                currentPage === 1 ? 'text-gray-500 cursor-not-allowed pointer-events-none' : 'text-black'
+                                currentPage === 1
+                                  ? 'text-gray-500 cursor-not-allowed pointer-events-none'
+                                  : 'text-black'
                               }`}
                               onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                             >
