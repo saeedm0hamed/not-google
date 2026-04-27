@@ -66,6 +66,7 @@
   --font-h2-section: "Arial Black", sans-serif;
   --font-h1-hero: "Arial Black", Impact, sans-serif;
   --font-label-xs: "Segoe UI", Tahoma, sans-serif;
+  --font-pixel: var(--font-pixel);
 
   --spacing-element-margin: 12px;
   --spacing-section-h: 16px;
@@ -113,6 +114,30 @@
     border: 2px solid;
     border-color: #808080 #ffffff #ffffff #808080;
     box-shadow: inset 1px 1px 0px #000000, inset -1px -1px 0px #C0C0C0;
+  }
+
+  .crosshatch {
+    background-color: #c0c0c0;
+    background-image: radial-gradient(#808080 1px, transparent 0);
+    background-size: 4px 4px;
+  }
+
+  .pulse-badge {
+    animation: pulse 1s step-end infinite;
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      transform: scale(1);
+      background-color: #ff0000;
+      color: #fff;
+    }
+    50% {
+      transform: scale(1.1);
+      background-color: #ffff00;
+      color: #000;
+    }
   }
 
   .title-bar {
