@@ -99,6 +99,8 @@
     border: 2px solid;
     border-color: #ffffff #808080 #808080 #ffffff;
     box-shadow: inset -1px -1px 0px #000000, inset 1px 1px 0px #C0C0C0;
+    transition: transform 150ms ease-out;
+    will-change: transform;
   }
   
   .outset-bevel-button:active {
@@ -147,6 +149,7 @@
   .retro-link {
     color: #0000ff;
     text-decoration: underline;
+    transition: color 150ms ease-out;
   }
   
   .retro-link:hover {
@@ -171,5 +174,20 @@
   
   .blink {
     animation: blink 1s step-end infinite;
+  }
+
+
+}
+
+/* ── Reduced motion: respect user preference ────────────────── */
+/* Per Emil Kowalski: don't remove all animation — provide safer alternatives */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
