@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { pageContainer, fadeUp, scaleFade, toolbarSlide, footerSlide, buttonTap, buttonHover } from './motion';
@@ -23,7 +24,7 @@ export default function Home() {
   };
 
   const handleLucky = () => {
-    router.push('/search?q=wikipedia');
+    router.push('/search?q=cats');
   };
 
   return (
@@ -34,14 +35,14 @@ export default function Home() {
       variants={pageContainer}
     >
       {/* Marquee */}
-      <motion.div className='marquee-container w-full max-w-[1024px] mb-8 py-2' variants={fadeUp}>
+      <motion.div className='marquee-container w-full max-w-[600px] mb-8 py-2' variants={fadeUp}>
         {/* @ts-expect-error - marquee is a legacy tag */}
         <marquee
           className='font-pixel text-h2-section text-success tracking-widest uppercase'
           scrollamount='15'
           style={{ color: '#00FF00' }}
         >
-          WELCOME TO NOT-GOOGLE! SEARCH THE WORLD WIDE WEB!
+          WELCOME TO MSH-GOOGLE!
           {/* @ts-expect-error - marquee is a legacy tag */}
         </marquee>
       </motion.div>
@@ -56,22 +57,22 @@ export default function Home() {
           className='title-bar w-full h-[24px] flex items-center justify-between px-1 mb-1'
           variants={toolbarSlide}
         >
-          <span className='font-label-xs text-label-xs text-on-primary font-bold'>Not-Google.exe</span>
+          <span className='font-label-xs text-label-xs text-on-primary font-bold'>Msh-Google.exe</span>
           <div className='flex gap-[2px]'>
             <motion.button
-              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center p-0 text-[10px] font-bold'
+              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-[10px] font-bold'
               whileTap={buttonTap}
             >
-              _
+              <span className='-translate-y-[3px] inline-block'>_</span>
             </motion.button>
             <motion.button
-              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center p-0 text-[10px] font-bold'
+              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-[10px] font-bold'
               whileTap={buttonTap}
             >
               □
             </motion.button>
             <motion.button
-              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center p-0 text-[10px] font-bold'
+              className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-[10px] font-bold'
               whileTap={buttonTap}
             >
               ×
@@ -84,54 +85,65 @@ export default function Home() {
           className='bg-zinc-300 border-b-2 border-zinc-600 shadow-[0_1px_0_0_#ffffff] px-4 py-2 flex flex-col md:flex-row items-center justify-between w-full mb-4 gap-4'
           variants={toolbarSlide}
         >
-          <div className='flex flex-col md:flex-row items-center gap-4 w-full md:w-auto'>
-            <p className='font-pixel tracking-widest whitespace-nowrap'>NOT GOOGLE</p>
-            <nav className='flex flex-wrap justify-center md:justify-start gap-x-4 gap-y-2'>
+          <div className='flex flex-row md:flex-row items-center gap-4 w-full md:w-auto'>
+            <nav className='flex flex-wrap justify-center md:justify-start gap-x-2 md:gap-x-4 gap-y-0'>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Images
               </a>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Maps
               </a>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Play
               </a>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 YouTube
               </a>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Gmail
               </a>
               <a
-                className='uppercase tracking-widest text-[10px] font-bold text-blue-700 underline decoration-1 hover:text-red-500 hover:bg-zinc-200'
+                className='uppercase tracking-widest text-[10px] cursor-not-allowed font-bold text-blue-700 decoration-1 hover:text-red-500 hover:bg-zinc-200'
                 href='#'
               >
                 Drive
               </a>
             </nav>
+            <Link href='/data-journey' className='md:hidden'>
+              <motion.button
+                className='bg-background cursor-pointer outset-bevel-button px-4 py-1 font-label-xs text-[10px] font-bold uppercase tracking-widest text-foreground hover:bg-zinc-200 whitespace-nowrap'
+                whileTap={buttonTap}
+                whileHover={buttonHover}
+              >
+                DATA JOURNEY
+              </motion.button>
+            </Link>
           </div>
-          <motion.button
-            className='bg-background outset-bevel-button px-4 py-1 font-label-xs text-[10px] font-bold uppercase tracking-widest text-foreground hover:bg-zinc-200 whitespace-nowrap'
-            whileTap={buttonTap}
-            whileHover={buttonHover}
-          >
-            Sign In
-          </motion.button>
+
+          <Link href='/data-journey' className='hidden md:block'>
+            <motion.button
+              className='bg-background cursor-pointer outset-bevel-button px-4 py-1 font-label-xs text-[10px] font-bold uppercase tracking-widest text-foreground hover:bg-zinc-200 whitespace-nowrap'
+              whileTap={buttonTap}
+              whileHover={buttonHover}
+            >
+              DATA JOURNEY
+            </motion.button>
+          </Link>
         </motion.header>
 
         {/* Content Area */}
@@ -171,7 +183,7 @@ export default function Home() {
                 />
               </svg>
               <input
-                className='w-full bg-transparent border-none outline-none font-body text-body text-foreground placeholder-muted focus:ring-0 p-0'
+                className='w-full bg-transparent border-none outline-none font-pixel text-body text-foreground placeholder-muted focus:ring-0 p-0'
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder='Search the web...'
                 type='text'
@@ -180,15 +192,15 @@ export default function Home() {
             </motion.div>
             <motion.div className='flex flex-col sm:flex-row gap-4 w-full sm:w-auto' variants={fadeUp}>
               <motion.button
-                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
+                className='bg-background cursor-pointer hover:bg-zinc-200 outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
                 type='submit'
                 whileTap={buttonTap}
                 whileHover={buttonHover}
               >
-                Not-Google Search
+                Search
               </motion.button>
               <motion.button
-                className='bg-background outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
+                className='bg-background cursor-pointer hover:bg-zinc-200 outset-bevel-button px-6 py-2 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
                 onClick={handleLucky}
                 type='button'
                 whileTap={buttonTap}
@@ -198,81 +210,28 @@ export default function Home() {
               </motion.button>
             </motion.div>
           </motion.form>
-
-          {/* Links & Badges */}
-          <motion.div className='flex items-center gap-2 mt-8' variants={fadeUp}>
-            <span className='bg-secondary text-on-secondary font-label-xs text-label-xs px-1 py-[2px] blink border border-foreground font-bold'>
-              NEW!
-            </span>
-            <a className='retro-link font-body text-body font-bold' href='#'>
-              Try Not-Google Images!
-            </a>
-          </motion.div>
         </motion.div>
       </motion.main>
 
-      {/* Hit Counter */}
-      <motion.div
-        className='mt-12 bg-foreground outset-bevel p-2 flex flex-col items-center border border-muted'
-        variants={fadeUp}
-      >
-        <span className='font-label-xs text-label-xs text-on-tertiary mb-1 uppercase tracking-widest'>
-          Search Requests Served:
-        </span>
-        <div className='bg-foreground inset-bevel px-4 py-2 border border-[#404040]'>
-          <span
-            className='font-pixel text-[24px] text-success tracking-[0.2em] font-bold'
-            style={{ textShadow: '0 0 5px #00FF00' }}
-          >
-            00001997
-          </span>
-        </div>
-      </motion.div>
-
       {/* Footer */}
       <motion.footer
-        className='mt-8 bg-zinc-300 border-t-2 border-zinc-600 shadow-[0_-1px_0_0_#ffffff] max-w-[1024px] mx-auto py-6 px-4 flex flex-col items-center gap-4 w-full'
+        className='mt-8 bg-zinc-300 cursor-default border-t-2 border-zinc-600 shadow-[0_-1px_0_0_#ffffff] max-w-[600px] mx-auto py-4 px-4 flex flex-col items-center gap-4 w-full'
         variants={footerSlide}
       >
-        <nav className='flex flex-wrap justify-center gap-x-4 gap-y-2'>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            Advertising
-          </a>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            Business
-          </a>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            About
-          </a>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            Privacy
-          </a>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            Terms
-          </a>
-          <a
-            className='text-[10px] leading-tight text-blue-700 underline hover:text-red-600 cursor-pointer uppercase font-bold tracking-widest'
-            href='#'
-          >
-            Settings
-          </a>
+        <nav className='flex flex-wrap justify-center gap-2'>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED </p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>MOSTAFA</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>YOUSIF</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDO</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>HAMZA</p>
         </nav>
-        <div className='text-sm font-bold text-zinc-900 text-[10px] leading-tight'>Copyright ©1997 Not-Google Inc.</div>
+        <div className='text-sm font-bold text-zinc-900 text-[10px] leading-tight'>
+          Copyright © 2026 Msh Google Inc.
+        </div>
       </motion.footer>
     </motion.div>
   );

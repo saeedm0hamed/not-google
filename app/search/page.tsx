@@ -127,27 +127,27 @@ function SearchResults() {
                 />
               </svg>
               <span className='truncate max-w-[200px] sm:max-w-none'>
-                Not-Google_97 - [Results for: {query || 'None'}]
+                Msh-Google.exe - [Results for: {query || 'None'}]
               </span>
             </div>
-            <div className='flex gap-1'>
+            <div className='flex gap-[2px]'>
               <motion.button
-                className='w-5 h-5 bg-[#c0c0c0] outset-bevel text-black flex items-center justify-center text-xs font-bold'
+                className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-black text-[10px] font-bold'
                 whileTap={buttonTap}
               >
-                _
+                <span className='-translate-y-[3px] inline-block'>_</span>
               </motion.button>
               <motion.button
-                className='w-5 h-5 bg-[#c0c0c0] outset-bevel text-black flex items-center justify-center text-xs font-bold'
+                className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-black text-[10px] font-bold'
                 whileTap={buttonTap}
               >
-                []
+                □
               </motion.button>
               <motion.button
-                className='w-5 h-5 bg-[#c0c0c0] outset-bevel text-black flex items-center justify-center text-xs font-bold'
+                className='w-[16px] h-[14px] bg-background outset-bevel-button flex items-center justify-center text-black text-[10px] font-bold'
                 whileTap={buttonTap}
               >
-                X
+                ×
               </motion.button>
             </div>
           </div>
@@ -172,7 +172,7 @@ function SearchResults() {
                 />
               </div>
               <motion.button
-                className='bg-[#c0c0c0] outset-bevel px-4 py-1 text-xs font-bold uppercase active:translate-x-[1px] active:translate-y-[1px] border-t-2 border-l-2 border-white border-b-2 border-r-2 border-[#808080] text-black'
+                className='bg-background cursor-pointer hover:bg-zinc-200 outset-bevel-button px-4 py-1.5 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
                 type='submit'
                 whileTap={buttonTap}
                 whileHover={buttonHover}
@@ -239,18 +239,6 @@ function SearchResults() {
               </svg>
               Image Results
             </div>
-            <motion.div className='mt-8 inset-bevel p-2 bg-[#FFFFCC]' variants={fadeUp}>
-              <p className='font-bold text-red-600 mb-1 uppercase'>ADVERTISEMENT</p>
-              <Image
-                alt='Retro hardware'
-                className='w-full inset-bevel mb-2'
-                height={100}
-                src='https://lh3.googleusercontent.com/aida-public/AB6AXuAJm4NYwMHqzJ3xb-wdNtFDg7BBbnF-XX0whDcYPnbC2e87CGFQTTK9P4hoPCPeTtM2fljN6zAp5bKU0VPWJ2oznsnaO5RGfvJXxUlqN8IPzFWSVE241TtW5HQ9SjwVRYxvuL0_N7uZBGbGr_PpVwqlu8KLODs3dWvJuZfrn_s0jugO1iUp8EywIp4bIoN0QHw7tDwRTxJQcboXCIUOOI2ipu99xRA_AQlOLl83BfTyRPE-Ah6JsQ-Fs9ZLyv3J32pHSkb8pYttcQjf'
-                unoptimized
-                width={200}
-              />
-              <p className='text-[10px] leading-tight'>Upgrade your RAM today! 16MB only $49.99!</p>
-            </motion.div>
           </motion.aside>
 
           <main className='flex-1 bg-white p-6 overflow-y-auto inset-bevel m-2 text-black'>
@@ -306,13 +294,7 @@ function SearchResults() {
                         Showing results {(currentPage - 1) * resultsPerPage + 1} -{' '}
                         {Math.min(currentPage * resultsPerPage, totalResults)} of {totalResults} for &quot;{query}&quot;
                       </p>
-                      <p className='text-[10px] text-gray-600'>Index: Wikipedia-Subset-1997 (Limited Beta)</p>
-                    </div>
-                    <div className='marquee-container w-48 text-[10px]'>
-                      {/* @ts-expect-error - marquee is a legacy tag */}
-                      <marquee scrollamount='3'>
-                        NEW SITES ADDED DAILY! CHECK THE DIRECTORY!{/* @ts-expect-error - marquee is a legacy tag */}
-                      </marquee>
+                      <p className='text-[10px] text-gray-600'>Index: BBC-Subset (Limited Beta)</p>
                     </div>
                   </motion.div>
 
@@ -320,15 +302,6 @@ function SearchResults() {
                     currentResults.map((result) => (
                       <motion.div className='mb-8' key={`${result.rank}-${result.doc_id}`} variants={resultItem}>
                         <div className='flex gap-4'>
-                          {result.image_url && (
-                            <div className='flex-shrink-0 w-24 h-24 relative outset-bevel bg-[#c0c0c0] p-1'>
-                              <img
-                                alt={result.title}
-                                className='w-full h-full object-cover inset-bevel'
-                                src={result.image_url.replace(/`/g, '').trim()}
-                              />
-                            </div>
-                          )}
                           <div className='flex-1'>
                             <div className='mb-1'>
                               <a
@@ -441,53 +414,6 @@ function SearchResults() {
         </div>
 
         {/* Footer */}
-        <motion.footer
-          className='w-full py-4 border-t border-[#808080] mt-auto bg-[#c0c0c0] text-[10px] text-center text-black'
-          variants={footerSlide}
-        >
-          <div className='flex flex-col gap-2 items-center'>
-            {/* Hit Counter */}
-            <div className='flex items-center gap-2 mb-2'>
-              <span className='text-xs font-bold uppercase'>Search Results Served:</span>
-              <div className='bg-black text-success font-pixel px-2 py-1 inset-bevel text-lg tracking-widest text-[#00FF00]'>
-                {data?.total_results.toString().padStart(8, '0') || '00001997'}
-              </div>
-            </div>
-            <div className='flex flex-wrap justify-center gap-x-4 gap-y-2 mb-2 px-4'>
-              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
-                About
-              </a>
-              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
-                Privacy
-              </a>
-              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
-                Contact
-              </a>
-              <a className='text-blue-800 underline hover:text-red-600 font-bold uppercase tracking-widest' href='#'>
-                Terms
-              </a>
-            </div>
-            <p className='text-black'>Copyright (c) 1997 Not-Google Inc. All Rights Reserved.</p>
-            <div className='flex gap-4 mt-2'>
-              <Image
-                alt='Under Construction'
-                className='h-8 w-auto'
-                height={32}
-                src='https://lh3.googleusercontent.com/aida-public/AB6AXuCxz-X3y-EVwIWjZqfsGj7hO--y-XrDKnLeKULjBcwpT4aP0YLn4MDkCsGNkgMbk7qlYtlUvYzydJd_umZuYBX_aKK3rcQTjNERG3CSC9N1CHoM5HhPb3zcazikZyOUSRGr4_wN_k0YvgS1bHw70SiNN-vyussgN0JpJxt0iZWq8MeT9vjw79qvTK4S0LtXngNNPL7NghM_S23or_pcc-fTfN1PuMg3omRtQ8phGdbQxKWM_I6RcJppNMTD6okFJ7YYCGdYDef0qu_S'
-                unoptimized
-                width={80}
-              />
-              <Image
-                alt='Netscape Now'
-                className='h-8 w-auto'
-                height={32}
-                src='https://lh3.googleusercontent.com/aida-public/AB6AXuBpoMyTIqH3IOcA5kjSaqrM4DELltbwyCXUQ1jL2GkCO1agtNqYt84wvAwDij5NdpqAhmSDTlLBOS_a30ChMHFbBGkrmz8EsIxK2xx8QTTRlwTWsNW1uYd4rZ-IMUfNmLtumHT1srZyHeTGt7V1EopScgCf04PuZH2ebvNVU30HMQ02-az-G5cd8kPRSqjzmL4aco1RawuO5nDXOKPhGyTKUO8AMu3mtqy0D1wGisxNadQ0p_3XIy8SPFCnU3yfS0Ap1VP4vfcyAmlk'
-                unoptimized
-                width={80}
-              />
-            </div>
-          </div>
-        </motion.footer>
       </motion.div>
     </motion.div>
   );
