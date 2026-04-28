@@ -97,13 +97,13 @@ function SearchResults() {
 
   return (
     <motion.div
-      className='crosshatch min-h-screen font-body text-foreground p-4 flex flex-col items-center'
+      className='min-h-screen font-body text-foreground p-4 flex flex-col items-center overflow-x-hidden'
       initial='hidden'
       animate='show'
       variants={pageContainer}
     >
       <motion.div
-        className='w-full max-w-[1024px] min-h-[90vh] flex flex-col bg-background outset-bevel shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
+        className='w-full max-w-[1024px] min-h-[90vh] flex flex-col bg-background outset-bevel sm:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'
         variants={scaleFade}
       >
         <motion.header
@@ -151,7 +151,7 @@ function SearchResults() {
               </motion.button>
             </div>
           </div>
-          <div className='bg-[#c0c0c0] p-2 flex flex-col md:flex-row items-center gap-4 border-b-2 border-[#808080]'>
+          <div className='bg-[#c0c0c0] p-2 flex flex-row items-center gap-4 border-b-2 border-[#808080]'>
             <Image
               alt='Not-Google'
               className='h-8 cursor-pointer drop-shadow-[1px_1px_0px_rgba(255,255,255,1)] w-auto'
@@ -172,7 +172,7 @@ function SearchResults() {
                 />
               </div>
               <motion.button
-                className='bg-background cursor-pointer hover:bg-zinc-200 outset-bevel-button px-4 py-1.5 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground w-full sm:w-auto'
+                className='bg-background cursor-pointer hover:bg-zinc-200 outset-bevel-button px-4 py-1.5 font-h2-section text-[14px] leading-tight font-black uppercase text-foreground '
                 type='submit'
                 whileTap={buttonTap}
                 whileHover={buttonHover}
@@ -289,8 +289,8 @@ function SearchResults() {
                     className='mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-end border-b-2 border-black pb-2 gap-2'
                     variants={fadeIn}
                   >
-                    <div className='flex flex-col gap-1'>
-                      <p className='text-sm font-bold italic'>
+                    <div className='flex flex-col gap-1 w-full'>
+                      <p className='text-sm font-bold italic break-words'>
                         Showing results {(currentPage - 1) * resultsPerPage + 1} -{' '}
                         {Math.min(currentPage * resultsPerPage, totalResults)} of {totalResults} for &quot;{query}&quot;
                       </p>
@@ -305,7 +305,7 @@ function SearchResults() {
                           <div className='flex-1'>
                             <div className='mb-1'>
                               <a
-                                className='text-xl font-bold text-[#0000FF] underline visited:text-[#800080] hover:text-[#FF0000]'
+                                className='text-xl font-bold text-[#0000FF] underline text-wrap visited:text-[#800080] hover:text-[#FF0000]'
                                 href={result.url.replace(/`/g, '').trim()}
                                 rel='noopener noreferrer'
                                 target='_blank'
@@ -313,7 +313,7 @@ function SearchResults() {
                                 {result.title}
                               </a>
                             </div>
-                            <p className='text-sm text-[#008000] mb-1 truncate'>
+                            <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>
                               {result.url.replace(/`/g, '').trim()}
                             </p>
                             <p className='text-xs text-[#808080]'>
@@ -412,9 +412,27 @@ function SearchResults() {
             </AnimatePresence>
           </main>
         </div>
-
-        {/* Footer */}
       </motion.div>
+      {/* Footer */}
+      <motion.footer
+        className='mt-8 bg-zinc-300 cursor-default border-t-2 border-zinc-600 shadow-[0_-1px_0_0_#ffffff] max-w-[600px] mx-auto py-4 px-4 flex flex-col items-center gap-4 w-full'
+        variants={footerSlide}
+      >
+        <nav className='flex flex-wrap justify-center gap-2'>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED </p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>MOSTAFA</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>YOUSIF</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDO</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>HAMZA</p>
+        </nav>
+        <div className='text-sm font-bold text-zinc-900 text-[10px] leading-tight'>
+          Copyright © 2026 Msh Google Inc.
+        </div>
+      </motion.footer>
     </motion.div>
   );
 }
@@ -423,7 +441,7 @@ export default function SearchPage() {
   return (
     <Suspense
       fallback={
-        <div className='crosshatch min-h-screen font-body text-foreground p-4 flex flex-col items-center justify-center'>
+        <div className='min-h-screen font-body text-foreground p-4 flex flex-col items-center justify-center'>
           <p className='font-pixel text-lg'>Loading...</p>
         </div>
       }
