@@ -17,6 +17,7 @@ import {
   slideInLeft,
   fadeIn,
 } from '../motion';
+import { logSearch } from '@/lib/logger';
 
 interface SearchResult {
   rank: number;
@@ -62,6 +63,9 @@ function SearchResults() {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // Log the search query to Firebase
+        logSearch(query);
+
         const res = await fetch(`https://sae8d-not-google.hf.space/search?q=${encodeURIComponent(query)}&k=25`);
         if (!res.ok) throw new Error('Failed to fetch search results');
         const text = await res.text();
@@ -77,9 +81,13 @@ function SearchResults() {
     fetchData();
   }, [query]);
 
-  const handleSearch = (e: React.FormEvent) => {
+  const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchInput.trim()) return;
+
+    // Log the search query to Firebase
+    await logSearch(searchInput);
+
     if (searchInput.includes('*')) {
       router.push(`/search/${encodeURIComponent(searchInput)}`);
     } else {
@@ -390,11 +398,15 @@ function SearchResults() {
                           >
                             <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
                               <a href={result.url.replace(/`/g, '').trim()} rel='noopener noreferrer' target='_blank'>
-                                <img
-                                  alt={result.title}
-                                  className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
-                                  src={cleanImageUrl}
-                                />
+                                {cleanImageUrl && (
+                                  <Image
+                                    alt={result.title}
+                                    className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
+                                    src={cleanImageUrl}
+                                    fill
+                                    unoptimized
+                                  />
+                                )}
                               </a>
                             </div>
                             <div className='text-[10px] leading-tight truncate font-pixel'>

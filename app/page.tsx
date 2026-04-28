@@ -6,14 +6,18 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { pageContainer, fadeUp, scaleFade, toolbarSlide, footerSlide, buttonTap, buttonHover } from './motion';
+import { logSearch } from '@/lib/logger';
 
 export default function Home() {
   const [query, setQuery] = useState('');
   const router = useRouter();
 
-  const handleSearch = (e?: React.FormEvent) => {
+  const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!query.trim()) return;
+
+    // Log the search query to Firebase
+    await logSearch(query);
 
     // Redirect to /search/[query] if it contains a wildcard *, otherwise to /search?q=[query]
     if (query.includes('*')) {
@@ -23,8 +27,10 @@ export default function Home() {
     }
   };
 
-  const handleLucky = () => {
-    router.push('/search?q=cats');
+  const handleLucky = async () => {
+    const luckyQuery = 'cats';
+    await logSearch(luckyQuery);
+    router.push(`/search?q=${encodeURIComponent(luckyQuery)}`);
   };
 
   return (
@@ -158,6 +164,7 @@ export default function Home() {
               src='/not-google.svg'
               unoptimized
               width={400}
+              suppressHydrationWarning
             />
           </motion.div>
 
