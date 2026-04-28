@@ -154,7 +154,7 @@ function SearchResults() {
           <div className='bg-[#c0c0c0] p-2 flex flex-row items-center gap-4 border-b-2 border-[#808080]'>
             <Image
               alt='Not-Google'
-              className='h-8 cursor-pointer drop-shadow-[1px_1px_0px_rgba(255,255,255,1)] w-auto'
+              className='h-8 cursor-pointer hover:scale-105 drop-shadow-[1px_1px_0px_rgba(255,255,255,1)] w-auto'
               height={32}
               onClick={() => router.push('/')}
               priority
@@ -183,12 +183,67 @@ function SearchResults() {
           </div>
         </motion.header>
 
+        {/* Mobile Filter Bar */}
+        <div className='md:hidden bg-[#c0c0c0] p-2 flex flex-row items-center gap-2 border-b-2 border-[#808080] font-mono text-[11px] text-black overflow-x-auto'>
+          <div
+            className={`font-bold px-2 py-1 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              viewMode === 'web' ? 'bg-[#000080] text-white' : 'text-black hover:bg-[#d0d0d0]'
+            }`}
+            onClick={() => {
+              setViewMode('web');
+              setCurrentPage(1);
+            }}
+          >
+            <svg
+              className='w-3 h-3'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+              />
+            </svg>
+            Web
+          </div>
+          <div
+            className={`font-bold px-2 py-1 flex items-center gap-2 cursor-pointer whitespace-nowrap ${
+              viewMode === 'images' ? 'bg-[#000080] text-white' : 'text-black hover:bg-[#d0d0d0]'
+            }`}
+            onClick={() => {
+              setViewMode('images');
+              setCurrentPage(1);
+            }}
+          >
+            <svg
+              className='w-3 h-3'
+              fill='none'
+              stroke='currentColor'
+              viewBox='0 0 24 24'
+              xmlns='http://www.w3.org/2000/svg'
+            >
+              <path
+                d='M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z'
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth='2'
+              />
+            </svg>
+            Images
+          </div>
+        </div>
+
         <div className='flex flex-1 overflow-hidden'>
           <motion.aside
             className='w-48 hidden md:flex flex-col p-2 gap-1 bg-[#c0c0c0] border-r-2 border-[#808080] font-mono text-[11px] text-black'
             variants={slideInLeft}
           >
             <div className='bg-[#808080] text-white px-2 py-1 font-bold mb-2 uppercase'>FILTER_RESULTS</div>
+            {/* THIS ONE */}
             <div
               className={`font-bold px-2 py-1 flex items-center gap-2 cursor-pointer ${
                 viewMode === 'web' ? 'bg-[#000080] text-white' : 'text-black hover:bg-[#d0d0d0]'
