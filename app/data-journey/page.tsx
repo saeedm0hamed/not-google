@@ -255,7 +255,6 @@ function SearchResults() {
             `}</style>
 
             <div className='mx-auto max-w-6xl'>
-
               {/* Progress dots */}
               <div className='mb-12 mt-12 flex items-center justify-center gap-2'>
                 {[0, 1, 2, 3].map((step) => (
@@ -534,13 +533,9 @@ function SearchResults() {
         variants={footerSlide}
       >
         <nav className='flex flex-wrap justify-center gap-2'>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED </p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>MOSTAFA</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>YOUSIF</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDO</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDELRAHMAN</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>HAMZA</p>
         </nav>

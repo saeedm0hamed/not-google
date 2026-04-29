@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams, useRouter } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, Suspense, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
@@ -84,9 +84,6 @@ function SearchResults() {
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!searchInput.trim()) return;
-
-    // Log the search query to Firebase
-    await logSearch(searchInput);
 
     if (searchInput.includes('*')) {
       router.push(`/search/${encodeURIComponent(searchInput)}`);
@@ -486,13 +483,9 @@ function SearchResults() {
         variants={footerSlide}
       >
         <nav className='flex flex-wrap justify-center gap-2'>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED </p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>MOSTAFA</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>YOUSIF</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDO</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDELRAHMAN</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>HAMZA</p>
         </nav>

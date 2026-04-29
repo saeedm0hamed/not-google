@@ -2,8 +2,23 @@ import { db, auth } from "./firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { signInAnonymously, onAuthStateChanged } from "firebase/auth";
 
+// Cache to prevent duplicate logs in rapid succession (e.g., React Strict Mode)
+const recentLogs = new Map<string, number>();
+const CACHE_DURATION = 2000; // 2 seconds
+
 export const logSearch = async (query: string) => {
-  if (!query.trim()) return;
+  const normalizedQuery = query.trim().toLowerCase();
+  if (!normalizedQuery) return;
+
+  const now = Date.now();
+  const lastLogTime = recentLogs.get(normalizedQuery);
+
+  if (lastLogTime && now - lastLogTime < CACHE_DURATION) {
+    return;
+  }
+
+  // Update cache immediately to prevent concurrent calls
+  recentLogs.set(normalizedQuery, now);
 
   try {
     // Ensure user is signed in
@@ -22,6 +37,8 @@ export const logSearch = async (query: string) => {
     }
   } catch (error) {
     console.error("Error logging search:", error);
+    // Remove from cache on error so it can be retried
+    recentLogs.delete(normalizedQuery);
   }
 };
 

@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { pageContainer, fadeUp, scaleFade, toolbarSlide, footerSlide, buttonTap, buttonHover } from './motion';
-import { logSearch } from '@/lib/logger';
 
 export default function Home() {
   const [query, setQuery] = useState('');
@@ -15,9 +14,6 @@ export default function Home() {
   const handleSearch = async (e?: React.FormEvent) => {
     e?.preventDefault();
     if (!query.trim()) return;
-
-    // Log the search query to Firebase
-    await logSearch(query);
 
     // Redirect to /search/[query] if it contains a wildcard *, otherwise to /search?q=[query]
     if (query.includes('*')) {
@@ -29,7 +25,6 @@ export default function Home() {
 
   const handleLucky = async () => {
     const luckyQuery = 'cats';
-    await logSearch(luckyQuery);
     router.push(`/search?q=${encodeURIComponent(luckyQuery)}`);
   };
 
@@ -226,13 +221,9 @@ export default function Home() {
         variants={footerSlide}
       >
         <nav className='flex flex-wrap justify-center gap-2'>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED </p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>SAEED</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>MOSTAFA</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>YOUSIF</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
-          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDO</p>
+          <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>ABDELRAHMAN</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>•</p>
           <p className='text-[10px] leading-tight uppercase font-bold tracking-widest'>HAMZA</p>
         </nav>
