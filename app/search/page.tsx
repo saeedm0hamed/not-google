@@ -107,13 +107,15 @@ function SearchResults() {
     }
   };
 
-  const totalResults = (viewMode === 'web' ? data?.results : data?.results.filter((r) => r.image_url))?.length || 0;
-  const totalPages = Math.ceil(totalResults / resultsPerPage);
-  const currentResults =
-    (viewMode === 'web' ? data?.results : data?.results.filter((r) => r.image_url))?.slice(
-      (currentPage - 1) * resultsPerPage,
-      currentPage * resultsPerPage,
-    ) || [];
+  const ddgsCount = (viewMode === 'web' ? data?.ddgs_results?.length : data?.ddgs_images?.length) || 0;
+  const localResults = (viewMode === 'web' ? data?.results : data?.results.filter((r) => r.image_url)) || [];
+  const totalResults = localResults.length + ddgsCount;
+  const totalPages = Math.ceil(localResults.length / resultsPerPage);
+  const currentResults = localResults.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
+
+  const startResult =
+    totalResults === 0 ? 0 : (currentPage - 1) * resultsPerPage + 1 + (currentPage === 1 ? 0 : ddgsCount);
+  const endResult = Math.min(currentPage * resultsPerPage + ddgsCount, totalResults);
 
   return (
     <motion.div
@@ -366,8 +368,7 @@ function SearchResults() {
                   >
                     <div className='flex flex-col gap-1 w-full'>
                       <p className='text-sm font-bold italic break-words'>
-                        Showing results {(currentPage - 1) * resultsPerPage + 1} -{' '}
-                        {Math.min(currentPage * resultsPerPage, totalResults)} of {totalResults} for &quot;{query}&quot;
+                        Showing results {startResult} - {endResult} of {totalResults} for &quot;{query}&quot;
                       </p>
                     </div>
                   </motion.div>
