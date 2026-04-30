@@ -284,7 +284,7 @@ function SearchResults() {
                 <StageCard
                   index={1}
                   title='Web Crawler'
-                  sub='Fetching from CNN · BBC · Wikipedia'
+                  sub='Fetching...'
                   color={COLORS.blue}
                   active={activeStep === 0}
                   completed={activeStep > 0}

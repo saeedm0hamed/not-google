@@ -28,10 +28,25 @@ interface SearchResult {
   score: number;
 }
 
+interface DDGSResult {
+  title: string;
+  href: string;
+  body: string;
+}
+
+interface DDGSImage {
+  title: string;
+  image: string;
+  thumbnail: string;
+  url: string;
+}
+
 interface SearchResponse {
   query: string;
   total_results: number;
   results: SearchResult[];
+  ddgs_results?: DDGSResult[];
+  ddgs_images?: DDGSImage[];
 }
 
 function SearchResults() {
@@ -354,77 +369,141 @@ function SearchResults() {
                         Showing results {(currentPage - 1) * resultsPerPage + 1} -{' '}
                         {Math.min(currentPage * resultsPerPage, totalResults)} of {totalResults} for &quot;{query}&quot;
                       </p>
-                      <p className='text-[10px] text-gray-600'>Index: BBC-Subset (Limited Beta)</p>
                     </div>
                   </motion.div>
 
                   {viewMode === 'web' ? (
-                    currentResults.map((result) => (
-                      <motion.div className='mb-8' key={`${result.rank}-${result.doc_id}`} variants={resultItem}>
-                        <div className='flex gap-4'>
-                          <div className='flex-1'>
-                            <div className='mb-1'>
-                              <a
-                                className='text-xl font-bold text-[#0000FF] underline text-wrap visited:text-[#800080] hover:text-[#FF0000]'
-                                href={result.url.replace(/`/g, '').trim()}
-                                rel='noopener noreferrer'
-                                target='_blank'
-                              >
-                                {result.title}
-                              </a>
+                    <>
+                      {/* DuckDuckGo Text Results */}
+                      {currentPage === 1 && data?.ddgs_results && data.ddgs_results.length > 0 && (
+                        <div className='mb-8 border-b-4 border-double border-[#808080] pb-4'>
+                          <div className='bg-[#000080] text-white px-2 py-0.5 text-xs font-bold mb-4 inline-block'>
+                            RECOMMENDED EXTERNAL RESULTS
+                          </div>
+                          {data.ddgs_results.map((result, idx) => (
+                            <motion.div className='mb-6' key={`ddgs-${idx}`} variants={resultItem}>
+                              <div className='mb-1'>
+                                <a
+                                  className='text-xl font-bold text-[#0000FF] underline text-wrap visited:text-[#800080] hover:text-[#FF0000]'
+                                  href={result.href}
+                                  rel='noopener noreferrer'
+                                  target='_blank'
+                                >
+                                  {result.title}
+                                </a>
+                              </div>
+                              <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>{result.href}</p>
+                              <p className='text-xs text-[#333333] line-clamp-2'>{result.body}</p>
+                            </motion.div>
+                          ))}
+                        </div>
+                      )}
+
+                      {currentResults.map((result) => (
+                        <motion.div className='mb-8' key={`${result.rank}-${result.doc_id}`} variants={resultItem}>
+                          <div className='flex gap-4'>
+                            <div className='flex-1'>
+                              <div className='mb-1'>
+                                <a
+                                  className='text-xl font-bold text-[#0000FF] underline text-wrap visited:text-[#800080] hover:text-[#FF0000]'
+                                  href={result.url.replace(/`/g, '').trim()}
+                                  rel='noopener noreferrer'
+                                  target='_blank'
+                                >
+                                  {result.title}
+                                </a>
+                              </div>
+                              <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>
+                                {result.url.replace(/`/g, '').trim()}
+                              </p>
+                              <p className='text-xs text-[#808080]'>
+                                Relevance Score: {result.score.toFixed(4)} | Doc ID: {result.doc_id}
+                              </p>
                             </div>
-                            <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>
-                              {result.url.replace(/`/g, '').trim()}
-                            </p>
-                            <p className='text-xs text-[#808080]'>
-                              Relevance Score: {result.score.toFixed(4)} | Doc ID: {result.doc_id}
-                            </p>
+                          </div>
+                        </motion.div>
+                      ))}
+                    </>
+                  ) : (
+                    <>
+                      {/* DuckDuckGo Image Results */}
+                      {currentPage === 1 && data?.ddgs_images && data.ddgs_images.length > 0 && (
+                        <div className='mb-10 border-b-4 border-double border-[#808080] pb-6'>
+                          <div className='bg-[#000080] text-white px-2 py-0.5 text-xs font-bold mb-4 inline-block'>
+                            RECOMMENDED EXTERNAL IMAGES
+                          </div>
+                          <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4'>
+                            {data.ddgs_images.map((result, idx) => (
+                              <motion.div className='flex flex-col gap-2' key={`ddgs-img-${idx}`} variants={resultItem}>
+                                <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
+                                  <a href={result.url} rel='noopener noreferrer' target='_blank'>
+                                    <Image
+                                      alt={result.title}
+                                      className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
+                                      src={result.image}
+                                      fill
+                                      unoptimized
+                                    />
+                                  </a>
+                                </div>
+                                <div className='text-[10px] leading-tight truncate font-pixel'>
+                                  <a
+                                    className='text-[#0000FF] underline hover:text-[#FF0000]'
+                                    href={result.url}
+                                    rel='noopener noreferrer'
+                                    target='_blank'
+                                  >
+                                    {result.title}
+                                  </a>
+                                </div>
+                              </motion.div>
+                            ))}
                           </div>
                         </div>
-                      </motion.div>
-                    ))
-                  ) : (
-                    <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
-                      {currentResults.map((result) => {
-                        const cleanImageUrl = result.image_url?.replace(/`/g, '').trim();
-                        return (
-                          <motion.div
-                            className='flex flex-col gap-2'
-                            key={`${result.rank}-${result.doc_id}`}
-                            variants={resultItem}
-                          >
-                            <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
-                              <a href={result.url.replace(/`/g, '').trim()} rel='noopener noreferrer' target='_blank'>
-                                {cleanImageUrl && (
-                                  <Image
-                                    alt={result.title}
-                                    className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
-                                    src={cleanImageUrl}
-                                    fill
-                                    unoptimized
-                                  />
-                                )}
-                              </a>
-                            </div>
-                            <div className='text-[10px] leading-tight truncate font-pixel'>
-                              <a
-                                className='text-[#0000FF] underline hover:text-[#FF0000]'
-                                href={result.url.replace(/`/g, '').trim()}
-                                rel='noopener noreferrer'
-                                target='_blank'
-                              >
-                                {result.title}
-                              </a>
-                            </div>
-                          </motion.div>
-                        );
-                      })}
-                    </div>
+                      )}
+
+                      <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4'>
+                        {currentResults.map((result) => {
+                          const cleanImageUrl = result.image_url?.replace(/`/g, '').trim();
+                          return (
+                            <motion.div
+                              className='flex flex-col gap-2'
+                              key={`${result.rank}-${result.doc_id}`}
+                              variants={resultItem}
+                            >
+                              <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
+                                <a href={result.url.replace(/`/g, '').trim()} rel='noopener noreferrer' target='_blank'>
+                                  {cleanImageUrl && (
+                                    <Image
+                                      alt={result.title}
+                                      className='w-full h-full object-cover inset-bevel group-hover:opacity-80 transition-opacity'
+                                      src={cleanImageUrl}
+                                      fill
+                                      unoptimized
+                                    />
+                                  )}
+                                </a>
+                              </div>
+                              <div className='text-[10px] leading-tight truncate font-pixel'>
+                                <a
+                                  className='text-[#0000FF] underline hover:text-[#FF0000]'
+                                  href={result.url.replace(/`/g, '').trim()}
+                                  rel='noopener noreferrer'
+                                  target='_blank'
+                                >
+                                  {result.title}
+                                </a>
+                              </div>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+                    </>
                   )}
 
                   {totalResults === 0 && (
                     <motion.div className='p-8 flex flex-col items-center justify-center' variants={fadeUp}>
-                      <p className='font-pixel text-xl mb-4'>No results found for &quot;{query}&quot;</p>
+                      <p className='font-pixel text-xl mb-4'>No crawled results found for &quot;{query}&quot;</p>
                       <p className='text-sm italic'>Try different keywords or check your spelling.</p>
                     </motion.div>
                   )}
