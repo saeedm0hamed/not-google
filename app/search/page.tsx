@@ -390,11 +390,13 @@ function SearchResults() {
                                   rel='noopener noreferrer'
                                   target='_blank'
                                 >
-                                  {result.title}
+                                  {result.title.slice(0, 60)}
                                 </a>
                               </div>
-                              <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>{result.href}</p>
-                              <p className='text-xs text-[#333333] line-clamp-2'>{result.body}</p>
+                              <p className='text-sm text-[#008000] mb-1 truncate text-wrap'>
+                                {result.href.slice(0, 60)}
+                              </p>
+                              <p className='text-xs text-[#333333] line-clamp-2'>{result.body.slice(0, 200)}...</p>
                             </motion.div>
                           ))}
                         </div>
