@@ -113,6 +113,20 @@ function SearchResults() {
   const totalPages = Math.ceil(localResults.length / resultsPerPage);
   const currentResults = localResults.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
 
+  const isPalestineQuery = query.toLowerCase() === 'فلسطين' || query.toLowerCase() === 'palestine';
+  const displayedDdgsImages =
+    isPalestineQuery && data?.ddgs_images && data.ddgs_images.length > 0
+      ? [
+          {
+            title: 'ERC Logistics Leader 🫡🥶',
+            image: '/kemo.jpeg',
+            thumbnail: '/kemo.jpeg',
+            url: 'https://www.linkedin.com/in/abdulkareem-mohamed-73875839b/',
+          },
+          ...data.ddgs_images.slice(0, 4),
+        ]
+      : data?.ddgs_images?.slice(0, 5) || [];
+
   const startResult =
     totalResults === 0 ? 0 : (currentPage - 1) * resultsPerPage + 1 + (currentPage === 1 ? 0 : ddgsCount);
   const endResult = Math.min(currentPage * resultsPerPage + ddgsCount, totalResults);
@@ -436,7 +450,7 @@ function SearchResults() {
                             RECOMMENDED EXTERNAL IMAGES
                           </div>
                           <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4'>
-                            {data.ddgs_images.map((result, idx) => (
+                            {displayedDdgsImages.map((result, idx) => (
                               <motion.div className='flex flex-col gap-2' key={`ddgs-img-${idx}`} variants={resultItem}>
                                 <div className='aspect-square relative outset-bevel bg-[#c0c0c0] p-1 cursor-pointer group'>
                                   <a href={result.url} rel='noopener noreferrer' target='_blank'>
