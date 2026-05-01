@@ -113,7 +113,8 @@ function SearchResults() {
   const totalPages = Math.ceil(localResults.length / resultsPerPage);
   const currentResults = localResults.slice((currentPage - 1) * resultsPerPage, currentPage * resultsPerPage);
 
-  const isPalestineQuery = query.toLowerCase() === 'فلسطين' || query.toLowerCase() === 'palestine';
+  const isPalestineQuery =
+    query.toLowerCase().replace(/\s/g, '') === 'فلسطين' || query.toLowerCase().replace(/\s/g, '') === 'palestine';
   const displayedDdgsImages =
     isPalestineQuery && data?.ddgs_images && data.ddgs_images.length > 0
       ? [

@@ -24,7 +24,7 @@ export default function Home() {
   };
 
   const handleLucky = async () => {
-    const luckyQuery = 'cats';
+    const luckyQuery = 'palestine';
     router.push(`/search?q=${encodeURIComponent(luckyQuery)}`);
   };
 
