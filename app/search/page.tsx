@@ -81,7 +81,10 @@ function SearchResults() {
         // Log the search query to Firebase
         logSearch(query);
 
-        const res = await fetch(`https://sae8d-not-google.hf.space/search?q=${encodeURIComponent(query)}&k=25`);
+        const isWildcard = query.includes('*') || query.includes('?');
+        const endpoint = isWildcard ? 'search/wildcard' : 'search';
+
+        const res = await fetch(`https://sae8d-not-google.hf.space/${endpoint}?q=${encodeURIComponent(query)}&k=25`);
         if (!res.ok) throw new Error('Failed to fetch search results');
         const text = await res.text();
         const json = await json_fixer(text);
@@ -100,11 +103,7 @@ function SearchResults() {
     e.preventDefault();
     if (!searchInput.trim()) return;
 
-    if (searchInput.includes('*')) {
-      router.push(`/search/${encodeURIComponent(searchInput)}`);
-    } else {
-      router.push(`/search?q=${encodeURIComponent(searchInput)}`);
-    }
+    router.push(`/search?q=${encodeURIComponent(searchInput)}`);
   };
 
   const ddgsCount = (viewMode === 'web' ? data?.ddgs_results?.length : data?.ddgs_images?.length) || 0;
