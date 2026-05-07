@@ -1,4 +1,4 @@
-[!(./frontend/public/og.jpg)]
+![Not Google](frontend/public/og.jpg)
 
 Not Google is a full-stack, retro-themed search engine inspired by the web of the late 1990s. It is a complete information retrieval system, featuring a web crawler, an asynchronous indexer, a search API, and a nostalgic frontend. The system is designed to crawl a target domain, process and index the content, and serve ranked search results, including support for wildcard queries.
 
